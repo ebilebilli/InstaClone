@@ -40,10 +40,13 @@ INSTALLED_APPS = [
 
     'rest_framework',
     
+    #local apps
     'apis',
     'posts',
     'comments',
     'likes',
+    'direct_messages',
+    'profiles'
 
 ]
 

@@ -4,7 +4,6 @@ from django.utils.timezone import now
 from django.contrib.auth.models import User
 
 
-
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
 
