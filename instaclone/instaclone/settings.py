@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     
     'apis',
     'posts',
-    'comments_and_likes'
+    'comments',
+    'likes',
 
 ]
 
