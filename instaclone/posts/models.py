@@ -11,6 +11,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     video = models.FileField(upload_to='videos/', null=True, blank=True)
+    like_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f'{self.user.username}: {self.caption[:20]}'
