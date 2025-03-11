@@ -9,7 +9,7 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class StorySerializer(serializers.ModelSerializer):
-    class meta:
+    class Meta:
         model = Story
         fields = '__all__'
         exlude = ['id']

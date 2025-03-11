@@ -24,13 +24,11 @@ class Story(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     video = models.FileField(upload_to='videos/', null=True, blank=True)
+    like_count = models.PositiveIntegerField(default=0)
 
-    def time_limit(self):
-        one_day = now() - timedelta(hours=24)
-        return one_day
+    @classmethod
+    def visible_stories(cls):
+        return cls.objects.filter(created_at__gte=now() - timedelta(hours=24))
     
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-
     def __str__(self):
         return f'{self.user.username}: {self.caption[:20]}'

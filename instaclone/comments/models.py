@@ -9,6 +9,8 @@ class Comment(models.Model):
 
     text = models.CharField(max_length=2200)
     created_at = models.DateTimeField(auto_now_add=True)
+    like_count = models.PositiveIntegerField(default=0)
+
 
     def __str__(self):
         return f'{self.user.username} {self.text[:20]}'

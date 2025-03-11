@@ -1,20 +1,14 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.permissions import IsAuthenticated, BasePermission, AllowAny
 from rest_framework.views import APIView, Response, status
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.authtoken.models import Token
-from rest_framework.permissions import IsAuthenticated, BasePermission, AllowAny
 
-from posts.models import Post, Story, User
+from apis.permission_control import HeHasPermission, BasePermission, IsAuthenticated, AllowAny, TokenAuthentication
+from posts.models import Post
 from comments.models import Comment
 from likes.models import Like
-from posts.serializers import PostSerializer, StorySerializer
+from likes.serializers import LikeSerializer
+from posts.serializers import PostSerializer
 from comments.serializers import CommentSerializer
 
-
-class HeHasPermission(BasePermission):
-    def has_object_permission(self, request, view, obj):
-        return request.user == obj.user or request.user.is_staff
 
 #Post APIS
 class PostListAPIView(APIView):
@@ -75,14 +69,24 @@ class PostLikeAPIView(APIView):
 
         if like_instance:
             like_instance.delete()
-            post.like_count = max(0, post.like - 1)
+            post.like_count = max(0, post.like_count - 1)
             post.save()
             return Response({'detail': 'Like removed'}, status=status.HTTP_200_OK)
 
         Like.objects.create(user=user, post=post)
         post.like_count += 1
         post.save()
-        return Response({'detail': "post liked"}, status=status.HTTP_200_OK)
+        return Response({'detail': 'Post liked'}, status=status.HTTP_200_OK)
+    
+    def get(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+        likes = Like.objects.filter(post=post)
+        if likes.exists():
+            serializer = LikeSerializer(likes, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({'Message':'There are not any likes yet'}, status=status.HTTP_404_NOT_FOUND)
+        
+
 
 
 class PostCommentManagementSection(APIView):
@@ -98,11 +102,12 @@ class PostCommentManagementSection(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, post_id):
-        comment = Comment.objects.filter(post_id=post_id)
-        if comment.exists():
-            serializer = CommentSerializer(comment, many=True)
+        post = get_object_or_404(Post, id=post_id)
+        comments = Comment.objects.filter(post=post)
+        if comments.exists():
+            serializer = CommentSerializer(comments, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response ({'Message': 'There are not any comments'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response ({'Message': 'There are not any comments'}, status=status.HTTP_404_NOT_FOUND)
     
     def patch(self, request, comment_id):
         comment = get_object_or_404(Comment, id=comment_id)
@@ -117,6 +122,36 @@ class PostCommentManagementSection(APIView):
         comment.delete()
         return Response({'message': 'Comment deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
 
+
+class CommentLikeAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request, comment_id):
+        comment = get_object_or_404(Comment, id=comment_id)
+        user = request.user
+        like_instance = Like.objects.filter(user=user, comment=comment).first()
+
+        if like_instance:
+            like_instance.delete()
+            comment.like_count = max(0, comment.like_count - 1)
+            comment.save()
+            return Response({'detail': 'Like removed'}, status=status.HTTP_200_OK)
+
+        Like.objects.create(user=user, comment=comment)
+        comment.like_count += 1
+        comment.save()
+        return Response({'detail': 'Comment liked'}, status=status.HTTP_200_OK)
+    
+    def get(self, request, comment_id):
+        comment = get_object_or_404(Comment, id=comment_id)
+        likes = Like.objects.filter(comment=comment)
+        if likes.exists():
+            serializer = LikeSerializer(likes, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({'Message':'There are not any likes yet'}, status=status.HTTP_404_NOT_FOUND)
+        
+    
 
     
        
