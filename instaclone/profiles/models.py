@@ -4,7 +4,7 @@ from posts.models import User
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profiles')
-    followers = models.ManyToManyField(User, related_name='following', symmetrical=False, null=True, blank=True)
+    followers = models.ManyToManyField(User, related_name='following', symmetrical=False, blank=True)
 
     profile_picture = models.ImageField(upload_to='profile_images/', null=True, blank=True)
     bio = models.CharField(max_length=150, null=True, blank=True)

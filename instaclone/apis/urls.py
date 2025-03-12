@@ -3,6 +3,7 @@ from .posts_apis import *
 from .story_apis import *
 
 
+
 app_name = 'apis'
 
 urlpatterns = [path('posts/', PostListAPIView.as_view(), name='posts'),
@@ -15,7 +16,8 @@ urlpatterns = [path('posts/', PostListAPIView.as_view(), name='posts'),
                path('stories/', StoryListAPIView.as_view(), name='stories'),
                path('story_create/', StoryCreateAPIView.as_view(), name='story_create'),
                path('story_detail/<int:story_id>/', StoryDetailAPIView.as_view(), name='story_detail'),
-               path('story/<int:story_id>/like_story', StoryLikeAPIView.as_view(), name='like_story')
+               path('story/<int:story_id>/like_story', StoryLikeAPIView.as_view(), name='like_story'),
+               path('story/<int:story_id>/send_message_to_story', SendMessageToStoryAPIView.as_view(), name='send_message_to_story')
 
 
 ]
