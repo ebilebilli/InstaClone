@@ -1,6 +1,7 @@
 from django.urls import path
-from .posts_apis import *
+from .post_apis import *
 from .story_apis import *
+from .profile_apis import *
 
 
 
@@ -17,7 +18,8 @@ urlpatterns = [path('posts/', PostListAPIView.as_view(), name='posts'),
                path('story_create/', StoryCreateAPIView.as_view(), name='story_create'),
                path('story_detail/<int:story_id>/', StoryDetailAPIView.as_view(), name='story_detail'),
                path('story/<int:story_id>/like_story', StoryLikeAPIView.as_view(), name='like_story'),
-               path('story/<int:story_id>/send_message_to_story', SendMessageToStoryAPIView.as_view(), name='send_message_to_story')
+               path('story/<int:story_id>/send_message_to_story', SendMessageToStoryAPIView.as_view(), name='send_message_to_story'),
+               path('profiles/search', ProfileSearchAPIView.as_view(), name='search_profile'),
 
 
 ]
