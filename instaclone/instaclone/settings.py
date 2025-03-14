@@ -89,8 +89,18 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    },
+    
+    'mongo':  {
+        'ENGINE': 'djongo',
+        'NAME': 'InstaClone',
+        'ENFORCE_SCHEMA': False, 
+        'CLIENT': {
+            'host': 'mongodb+srv://ebilebilli3:4hpKkfQP7KqcdTm8@instaclone.6rmdq.mongodb.net/?retryWrites=true&w=majority&appName=InstaClone',
+        }
+    }    
 }
+DATABASE_ROUTERS = ['instaclone.routers.DirectMessageRouter']
 
 
 # Password validation
@@ -117,7 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Baku'
 
 USE_I18N = True
 
