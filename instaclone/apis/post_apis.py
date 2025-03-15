@@ -26,7 +26,7 @@ class OpenPostListAPIView(APIView):
     """
     permission_classes = [AllowAny]
 
-    def get(self, request):  # Added 'request' parameter for consistency
+    def get(self, request):  
         """
         Handles GET requests to retrieve posts from open profiles.
 
@@ -61,7 +61,7 @@ class PrivatePostListAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated, HeHasPermission]
 
-    def get(self, request):  # Added 'request' parameter for consistency
+    def get(self, request):  
         """
         Handles GET requests to retrieve posts from open profiles for authorized users.
 
@@ -440,7 +440,7 @@ class PostCommentManagementSection(APIView):
                 - 400 Bad Request: If the data is invalid.
                 - 404 Not Found: If the post does not exist.
         """
-        serializer = CommentSerializer(data=request.data)  # Fixed typo: request.data
+        serializer = CommentSerializer(data=request.data)  
         post = get_object_or_404(Post, id=post_id)
         if serializer.is_valid():
             serializer.save(user=request.user, post=post)
@@ -525,7 +525,7 @@ class CommentLikeAPIView(APIView):
             Retrieves a list of likes for a specific comment.
     """
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]  # Fixed trailing comma
+    permission_classes = [IsAuthenticated]  
 
     def post(self, request, comment_id):
         """
