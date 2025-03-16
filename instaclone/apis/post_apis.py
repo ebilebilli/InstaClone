@@ -99,7 +99,7 @@ class PrivatePostDetailAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated, HeHasPermission]
 
-    def get(self, request, post_id):  # Added 'request' parameter
+    def get(self, request, post_id): 
         """
         Handles GET requests to retrieve a specific post's details.
 
@@ -179,7 +179,7 @@ class OpenPostDetailAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, post_id):  # Added 'request' parameter
+    def get(self, request, post_id):  
         """
         Handles GET requests to retrieve a specific post's details.
 
