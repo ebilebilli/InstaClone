@@ -20,7 +20,7 @@ urlpatterns = [
         name='register'),
     
     path('logout/',
-        LoginAPIView.as_view(),
+        LogoutAPIView.as_view(),
         name='logout'),
 
     path('open_posts/',

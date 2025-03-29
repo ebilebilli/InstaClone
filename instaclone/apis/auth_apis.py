@@ -19,8 +19,10 @@ class RegisterAPIView(APIView):
         serializer = CustomerUserRegisterDataSerializer(data=request.data)
         
         if serializer.is_valid():
+            username = serializer.validated_data['username']
             email = serializer.validated_data['email']
-            send_otp_func(email) 
+           
+            send_otp_func(username, email) 
 
             otp_from_request = request.data.get('otp')
             otp_in_cache = cache.get(f'otp_{email}')
