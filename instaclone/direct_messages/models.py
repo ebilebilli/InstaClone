@@ -1,10 +1,11 @@
 from django.db import models
-from posts.models import User, Post, Story
+from posts.models import Post, Story
+from profiles.models import CustomerUser
 
 
 class DirectMessage(models.Model):
-    sender_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
-    receiver_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
+    sender_user = models.ForeignKey(CustomerUser, on_delete=models.CASCADE, related_name='sent_messages')
+    receiver_user = models.ForeignKey(CustomerUser, on_delete=models.CASCADE, related_name='received_messages')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_messages', null=True, blank=True)
     story =  models.ForeignKey(Story, on_delete=models.CASCADE, related_name='story_messages', null=True, blank=True)
 

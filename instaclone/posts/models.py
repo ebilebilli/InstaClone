@@ -1,11 +1,11 @@
 from django.db import models
 from datetime import timedelta
 from django.utils.timezone import now
-from django.contrib.auth.models import User
+from profiles.models import CustomerUser
 
 
 class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+    user = models.ForeignKey(CustomerUser, on_delete=models.CASCADE, related_name='posts')
 
     caption = models.CharField(max_length=2200, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -18,7 +18,7 @@ class Post(models.Model):
 
 
 class Story(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='stories')
+    user = models.ForeignKey(CustomerUser, on_delete=models.CASCADE, related_name='stories')
 
     caption = models.CharField(max_length=2200, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

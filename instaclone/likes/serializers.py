@@ -5,4 +5,4 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = '__all__'
-        exlude = ['id']
+        exclude = ['id']

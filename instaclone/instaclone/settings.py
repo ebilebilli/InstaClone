@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv('.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-40+d@v2)b30cqx*q++xm@%)j71-n4@9mv_d)813o6f-#9aoro!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -96,11 +100,9 @@ DATABASES = {
         'NAME': 'InstaClone',
         'ENFORCE_SCHEMA': False, 
         'CLIENT': {
-            'host': 'mongodb+srv://ebilebilli3:4hpKkfQP7KqcdTm8@instaclone.6rmdq.mongodb.net/?retryWrites=true&w=majority&appName=InstaClone',
-        }
+            'host': os.getenv('MANGO_DB_HOST')}
     }    
 }
-DATABASE_ROUTERS = ['instaclone.routers.DirectMessageRouter']
 
 
 # Password validation
@@ -145,8 +147,22 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# Custom User 
+AUTH_USER_MODEL = 'profiles.CustomerUser'
+
 #Media
 import os
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+#mail_settings
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD') 

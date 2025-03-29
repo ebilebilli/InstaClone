@@ -5,4 +5,4 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
-        exlude = ['id']
+        exclude = ['id']

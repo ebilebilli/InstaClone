@@ -3,6 +3,7 @@ from .post_apis import *
 from .story_apis import *
 from .profile_apis import *
 from .direct_apis import *
+from .auth_apis import *
 
 
 app_name = 'apis'
@@ -10,6 +11,18 @@ app_name = 'apis'
 from django.urls import path
 
 urlpatterns = [
+    path('login/',
+        LoginAPIView.as_view(),
+        name='login'),
+
+    path('register/',
+        RegisterAPIView.as_view(),
+        name='register'),
+    
+    path('logout/',
+        LoginAPIView.as_view(),
+        name='logout'),
+
     path('open_posts/',
         OpenPostListAPIView.as_view(),
         name='posts'),

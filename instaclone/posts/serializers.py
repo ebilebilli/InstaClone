@@ -12,4 +12,4 @@ class StorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Story
         fields = '__all__'
-        exlude = ['id']
+        exclude = ['id']

@@ -1,11 +1,12 @@
 from django.db import models
-from posts.models import Post, User, Story
+from posts.models import Post, Story
 from comments.models import Comment
+from profiles.models import CustomerUser
 
 # Create your models here.
 
 class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+    user = models.ForeignKey(CustomerUser, on_delete=models.CASCADE, related_name='likes')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes', null=True, blank=True)
     story = models.ForeignKey(Story, on_delete=models.CASCADE, related_name='likes', null=True, blank=True)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='likes', null=True, blank=True)

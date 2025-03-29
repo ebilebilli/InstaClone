@@ -1,9 +1,10 @@
 from django.db import models
-from posts.models import Post, User, Story
+from posts.models import Post, Story
+from profiles.models import CustomerUser
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(CustomerUser, on_delete=models.CASCADE, related_name='comments')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     story =  models.ForeignKey(Story, on_delete=models.CASCADE, related_name='comments')
 

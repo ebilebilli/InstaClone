@@ -1,10 +1,21 @@
 from django.db import models
-from posts.models import User
+from django.contrib.auth.models import AbstractUser
+
+
+class CustomerUser(AbstractUser):
+    email = models.EmailField(unique=True)
+    username = models.CharField(max_length=150, unique=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+    
+    def __str__(self):
+        return f'{self.email}'
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profiles')
-    followers = models.ManyToManyField(User, related_name='followings', symmetrical=False, blank=True)
+    user = models.OneToOneField(CustomerUser, on_delete=models.CASCADE, related_name='profile')
+    followers = models.ManyToManyField(CustomerUser, related_name='followings', symmetrical=False, blank=True)
 
     OPEN_PROFILE = 'Open Profile'
     PRIVATE_PROFILE = 'Private Profile'

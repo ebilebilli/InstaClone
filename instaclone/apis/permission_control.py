@@ -1,5 +1,6 @@
 from rest_framework.permissions import IsAuthenticated, BasePermission, AllowAny
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
 
 from rest_framework.permissions import BasePermission
 from posts.models import Post, Story
