@@ -21,6 +21,7 @@ class LoginSerializer(serializers.Serializer):
            return user
         raise serializers.ValidationError('Invalid username or password')
 
+
 class CustomerUserRegisterDataSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password_two = serializers.CharField(write_only=True, required=True)

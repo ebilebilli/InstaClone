@@ -10,3 +10,4 @@ def send_mail_func(user_name:str, user_email:str):
         fail_silently=True     
 
     )
+

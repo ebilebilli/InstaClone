@@ -2,10 +2,12 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView, Response, status
 from rest_framework.pagination import PageNumberPagination
 from django.db import transaction
+from django.core.cache import cache
 
 from apis.permission_control import AllowAny, TokenAuthentication, IsOwner, Token
 from profiles.models import CustomerUser
 from profiles.serializers import CustomerUserRegisterDataSerializer, LoginSerializer
+from utils.otp_func import send_otp_func
 
 
 class RegisterAPIView(APIView):
@@ -17,6 +19,15 @@ class RegisterAPIView(APIView):
         serializer = CustomerUserRegisterDataSerializer(data=request.data)
         
         if serializer.is_valid():
+            email = serializer.validated_data['email']
+            send_otp_func(email) 
+
+            otp_from_request = request.data.get('otp')
+            otp_in_cache = cache.get(f'otp_{email}')
+
+            if otp_from_request != otp_in_cache:  
+                return Response({'message': 'Invalid OTP code'}, status=status.HTTP_400_BAD_REQUEST)
+
             with transaction.atomic():
                 user = serializer.save()
                 token, created = Token.objects.get_or_create(user=user)
@@ -28,7 +39,7 @@ class RegisterAPIView(APIView):
                 'token': token.key
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    
 
 class LoginAPIView(APIView):
     """
