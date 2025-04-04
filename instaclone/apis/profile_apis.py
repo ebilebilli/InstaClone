@@ -191,3 +191,4 @@ class ProfileFollowingListAPIView(APIView):
             serializer = ProfileSerializer(result_page, many=True)
             return pagination.get_paginated_response(serializer)
         return Response({'Message':'You are not authorized to view this profile.'}, status=status.HTTP_403_FORBIDDEN)
+            
